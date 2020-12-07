@@ -1,0 +1,32 @@
+.hidden, .js .closed .inside, .js .hide-if-js, .no-js .hide-if-no-js, .js.wp-core-ui .hide-if-js, .js .wp-core-ui .hide-if-js, .no-js.wp-core-ui .hide-if-no-js, .no-js .wp-core-ui .hide-if-no-js {
+	display: none;
+}
+
+.remove-price-rule {
+    display: inline-block;
+    position: relative;
+    padding: 2px 0 2px 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.remove-price-rule:focus {
+    box-shadow: none !important;
+}
+
+.price-quantity-rule {
+    margin-right: 2% !important;
+    height: auto !important;
+}
+
+.price-quantity-rule--variation:first-child {
+    margin-right: 1.6% !important;
+}
+
+.price-quantity-rule--simple {
+    width: 24% !important;
+}
+
+.price-quantity-rule--variation {
+    width: 23% !important;
+}
