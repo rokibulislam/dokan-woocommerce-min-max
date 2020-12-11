@@ -6,13 +6,17 @@ class DokanTierPriceing {
 
     public function __construct() {
         
-        add_action( 'dokan_new_product_after_product_tags', [ $this, 'tier_product_price_field' ], 9 );
+        add_action( 'dokan_new_product_after_product_tags', [ $this, 'tier_product_price_field' ], 8 );
+        // add_action( 'dokan_new_product_form', [ $this, 'tier_product_price_field' ], 4 );
+        // add_action( 'dokan_new_product_after_main', [ $this, 'tier_product_price_field' ], 3 );
 
         add_action( 'dokan_new_product_added', [ $this, 'save_tier_price_product_meta' ], 11, 2 );
         add_action( 'dokan_product_updated', [ $this, 'save_tier_price_product_meta' ], 11, 2 );
 
         add_action('dokan_product_edit_after_product_tags', [ $this, 'edit_tier_product_price_field' ],9,2);
-
+        
+        // add_action( 'dokan_product_edit_after_main', [ $this, 'edit_tier_product_price_field' ], 9, 2 );
+        
         add_action( 'dokan_variation_options_pricing', [ $this, 'add_tier_variation_priceing' ], 10, 3 );
 
         // add_action( 'dokan_product_updated', 'save_tier_price_variation_product_meta', 12 );
@@ -44,10 +48,10 @@ class DokanTierPriceing {
             return;
         }
 
-        $product_type = isset( $postdata['product_type'] ) && in_array( $data['product_type'],
-                array( 'simple', 'variable' ) ) ? sanitize_text_field( $data['product_type'] ) : 'simple';
+        $product_type = isset( $postdata['product_type'] ) && in_array( $postdata['product_type'],
+                array( 'simple', 'variable' ) ) ? sanitize_text_field( $postdata['product_type'] ) : 'simple';
 
-        if ( wp_verify_nonce( $nonce, 'save_simple_product_dokan_tier_price_data' ) &&  $product_type == 'simple' ) {
+        if ( wp_verify_nonce( $nonce, 'save_simple_product_dokan_tier_price_data' ) ) {
 
             $prefix = isset( $postdata['product_type'] ) && in_array( $postdata['product_type'],
                 array( 'simple', 'variable' ) ) ? sanitize_text_field( $postdata['product_type'] ) : 'simple';
@@ -65,19 +69,31 @@ class DokanTierPriceing {
             if ( isset( $postdata[ 'tiered_price_rules_type_' . $prefix ] ) ) {
                 PriceManager::updatePriceRulesType( $product_id, sanitize_text_field( $postdata[ 'tiered_price_rules_type_' . $prefix ] ) );
             }
+
+            if ( isset( $postdata['_tiered_pricing_minimum_common'] ) ) {
+                $min = intval( $postdata['_tiered_pricing_minimum_common'] );
+                $min = $min > 0 ? $min : 1;
+
+                PriceManager::updateProductQtyMin( $product_id, $min );
+                update_post_meta( $product_id, 'minimum_allowed_quantity', $postdata['_tiered_pricing_minimum_common'] );
+            }
         }
     }
 
 
     public function edit_tier_product_price_field($post, $post_id){
 
-        $type = PriceManager::getPricingType( $post_id, 'fixed', 'edit' );
+        global $product;
 
+        $type = PriceManager::getPricingType( $post_id, 'fixed', 'edit' );
+        $prefix = $product->get_type();
         dokan_extended_get_template_part( 'products/tier-pricing', '', [
             'price_rules_fixed'      => PriceManager::getFixedPriceRules( $post_id, 'edit' ),
             'price_rules_percentage' => PriceManager::getPercentagePriceRules( $post_id, 'edit' ),
             'type'                   => $type,
+            // 'prefix'                 => $prefix,
             'prefix'                 => 'simple',
+            'tiered_min_qty'         => PriceManager::getProductQtyMin( $post_id, 'edit' )
         ]);
     }
 

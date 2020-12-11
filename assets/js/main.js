@@ -1,6 +1,11 @@
 
 jQuery(document).ready(function () {
 
+    jQuery('[data-tiered-price-type-select]').on('change', function () {
+        jQuery('[data-tiered-price-type]').css('display', 'none');
+        jQuery('[data-tiered-price-type-' + this.value + ']').css('display', 'block');
+    });
+
     jQuery(document).on('click', '[data-add-new-price-rule]', function (e) {
         e.preventDefault();
 

@@ -57,7 +57,7 @@
 				?>
 			</option>
 		</select>
-	</p>
+	</div>
 
 	<div class="form-field form-row" style="width: 48%">
 		<label for="tiered-price-start-from">

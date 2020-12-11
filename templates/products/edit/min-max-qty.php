@@ -1,11 +1,11 @@
-<div class="dokan-form-group">
-    <input type="hidden" name="minimum_allowed_quantity" id="dokan-edit-product-id" value="<?php echo esc_attr( $post_id ); ?>"/>
-    <label for="minimum_allowed_quantity" class="form-label"><?php esc_html_e( 'Minimum quantity', 'dokan-lite' ); ?></label>
-    <?php dokan_post_input_box( $post_id, 'minimum_allowed_quantity', array( 'min' => "0", 'step' => "1", 'placeholder' => __( 'Minimum quantity', 'dokan-lite' ), 'value' => $minimum_allowed_quantity ), 'number' ); ?>
+<!-- <div class="dokan-form-group">
+    <input type="hidden" name="minimum_allowed_quantity" id="dokan-edit-product-id" value="<?php //echo esc_attr( $post_id ); ?>"/>
+    <label for="minimum_allowed_quantity" class="form-label"><?php //esc_html_e( 'Minimum quantity', 'dokan-lite' ); ?></label>
+    <?php //dokan_post_input_box( $post_id, 'minimum_allowed_quantity', array( 'min' => "0", 'step' => "1", 'placeholder' => __( 'Minimum quantity', 'dokan-lite' ), 'value' => $minimum_allowed_quantity ), 'number' ); ?>
     <div class="dokan-product-title-alert dokan-hide">
      <?php //esc_html_e( 'Please enter Minimum quantity!', 'dokan-lite' ); ?>
     </div>
-</div> 
+</div>  -->
 
 <div class="dokan-form-group">
     <input type="hidden" name="maximum_allowed_quantity" id="dokan-edit-product-id" value="<?php echo esc_attr( $post_id ); ?>"/>

@@ -124,3 +124,65 @@ function dokan_extended_get_template_part( $slug, $name = '', $args = array() ) 
         include $template;
     }
 }
+
+
+add_action( 'woocommerce_single_product_summary', 'bbloomer_show_return_policy', 20 );
+ 
+function bbloomer_show_return_policy() {
+	global $product;
+	if( $product instanceof WC_Product ) {
+		$minimum_allowed_quantity         = get_post_meta( $product->get_id(), 'minimum_allowed_quantity', true );
+	    $maximum_allowed_quantity         = get_post_meta( $product->get_id(), 'maximum_allowed_quantity', true );
+	    $group_of_quantity                = get_post_meta( $product->get_id(), 'group_of_quantity', true );
+
+	    if( $minimum_allowed_quantity != '' ) {
+	    	echo sprintf( '<p> Minimum Order Quantity %s </p>', $minimum_allowed_quantity );
+	    }
+
+	    if( $minimum_allowed_quantity != '' ) {
+	    	echo sprintf( '<p> Groups of %s </p>', $group_of_quantity );
+	    }
+	}
+}
+
+// Check items.
+// add_action( 'woocommerce_check_cart_items', 'dokan_extended_check_cart_items'  );
+
+function dokan_extended_check_cart_items() {
+
+}
+
+// Quantity selelectors (2.0+).
+// remove_filter( 'woocommerce_quantity_input_args', array('WC_Min_Max_Quantities', 'update_quantity_args' ), 10 );
+// add_filter( 'woocommerce_quantity_input_args', 'dokan_extended_update_quantity_args', 9, 2 );
+// remove_filter( 'woocommerce_available_variation', array( 'WC_Min_Max_Quantities', 'available_variation' ), 10 );
+// add_filter( 'woocommerce_available_variation', 'dokan_extended_available_variation', 10, 3 );
+
+function dokan_extended_update_quantity_args( $data, $product ) {
+
+	return $data;
+}
+
+function dokan_extended_available_variation( $data, $product, $variation ) {
+
+	return $data;
+}
+
+// Prevent add to cart..
+// remove_filter( 'woocommerce_add_to_cart_validation', array( 'WC_Min_Max_Quantities', 'add_to_cart' ), 10 );
+// add_filter( 'woocommerce_add_to_cart_validation','dokan_extended_add_to_cart', 10, 4 );
+
+function dokan_extended_add_to_cart( $pass, $product_id, $quantity, $variation_id = 0 ) {
+
+	return $pass;
+}
+
+
+// Show a notice when items would have to be on back order because of min/max.
+// add_filter( 'woocommerce_get_availability', 'dokan_extended_maybe_show_backorder_message', 10, 2 );
+// remove_filter( 'woocommerce_get_availability', array( 'WC_Min_Max_Quantities', 'maybe_show_backorder_message' ), 10, 2 );
+
+function dokan_extended_maybe_show_backorder_message( $args, $product ) {
+
+	return $args;
+}

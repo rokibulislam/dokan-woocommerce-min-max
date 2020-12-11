@@ -3,8 +3,10 @@
 class DokanMinMax {
 
     public function __construct() {
-      add_action( 'dokan_new_product_after_product_tags', [ $this, 'add_min_max_field' ], 10 );
-
+      add_action( 'dokan_new_product_after_product_tags', [ $this, 'add_min_max_field' ], 9 );
+      // add_action( 'dokan_new_product_form', [ $this, 'add_min_max_field' ], 4 );
+      // add_action( 'dokan_new_product_after_main', [ $this, 'add_min_max_field' ], 4 );
+      
 
       add_action( 'dokan_new_product_added',[ $this,'save_min_max_meta' ], 10, 2 );
       add_action( 'dokan_product_updated', [ $this, 'save_min_max_meta' ] , 10, 2 );
